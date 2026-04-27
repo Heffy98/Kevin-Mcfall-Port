@@ -4,47 +4,64 @@ import "./App.css";
 import avatarImg from "./assets/KM-Blk-turtleneck-2025.jpeg";
 import heroImg from "./assets/Screenshot 2026-04-22 212920.png";
 import businessImg from "./assets/Awardpic.png";
-import historyImg from "./assets/Kmcfallhistory.png";
+import { History } from "./pages/History";
 import djImg from "./assets/DJMEGA.png";
-
+import { Work } from "./pages/Work";
 type Page = "home" | "history" | "work" | "contact";
 
 export default function App() {
   const [page, setPage] = useState<Page>("home");
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const navigate = (nextPage: Page) => {
+    setPage(nextPage);
+    setMenuOpen(false);
+  };
 
   return (
     <div className="app">
-      {/* NAVBAR */}
       <nav className="navbar">
-        <button className="brand" onClick={() => setPage("home")}>
+        <button className="brand" onClick={() => navigate("home")}>
           <img src={avatarImg} alt="Kevin McFall" className="avatar" />
           <span className="brand-name">McFall</span>
           <span className="badge">Chief Marketing Officer</span>
         </button>
 
-        <div className="links">
-          <button onClick={() => setPage("home")}>Home</button>
-          <button onClick={() => setPage("history")}>History</button>
-          <button onClick={() => setPage("work")}>Work</button>
-          <button onClick={() => setPage("contact")}>Contact</button>
-        </div>
+    <button
+  className={`hamburger ${menuOpen ? "open" : ""}`}
+  onClick={() => setMenuOpen(!menuOpen)}
+>
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
       </nav>
 
+      <div
+        className={`menu-backdrop ${menuOpen ? "show" : ""}`}
+        onClick={() => setMenuOpen(false)}
+      />
+
+      <aside className={`side-menu ${menuOpen ? "show" : ""}`}>
+        <button onClick={() => navigate("home")}>Home</button>
+        <button onClick={() => navigate("history")}>History</button>
+        <button onClick={() => navigate("work")}>Work</button>
+        <button onClick={() => navigate("contact")}>Contact</button>
+      </aside>
       {page === "home" && <Home />}
-      {page === "history" && <History />}
+     {page === "history" && <History />}
       {page === "work" && <Work />}
       {page === "contact" && <Contact />}
     </div>
   );
 }
 
-/* ================= HOME ================= */
-
 function Home() {
+  const [open, setOpen] = useState(false);
+
   return (
     <main className="page">
-      
-      {/* HERO */}
+
       <section className="hero theme-hero">
         <img src={heroImg} className="hero-bg" />
 
@@ -52,78 +69,46 @@ function Home() {
           <h1 className="title reveal-text">Kevin W McFall</h1>
           <p className="sub">Product • Growth • Marketing Leadership</p>
           <p className="description">
-            Proven executive driving revenue, strategy, and digital transformation across B2B and B2C.
+            Proven executive driving revenue, strategy, and digital transformation.
           </p>
-          <button className="cta">Book a Consultation</button>
+
+          <div className="hero-actions">
+            <button className="cta" onClick={() => setOpen(true)}>
+              Book a Consultation
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* BUSINESS */}
+      {/* MODAL */}
+      {open && (
+        <div className="booking-overlay">
+          <div className="booking-modal">
+            <button className="close-modal" onClick={() => setOpen(false)}>✕</button>
+            <h2>Book a Consultation</h2>
+            <p>Email: kevin.mcfall@gmail.com</p>
+          </div>
+        </div>
+      )}
+
+      {/* KEEP YOUR SECTIONS */}
       <section className="scene theme-business">
         <img src={businessImg} className="bg" />
         <div className="overlay">
           <h2>Business Impact</h2>
-          <p>
-            Led cross-functional teams, scaled revenue beyond $20M, and delivered measurable impact.
-          </p>
         </div>
       </section>
 
-      {/* DJ */}
-      <section className="scene dj theme-dj">
+      <section className="scene theme-dj">
         <img src={djImg} className="bg" />
         <div className="overlay">
           <h2 className="dj-title">DJ MEGA</h2>
-          <p>
-            Where culture meets sound. Years of music, radio, and community impact.
-          </p>
         </div>
       </section>
 
     </main>
   );
 }
-
-/* ================= HISTORY ================= */
-
-function History() {
-  return (
-    <section className="hero theme-history">
-      <img src={historyImg} className="hero-bg" />
-
-      <div className="hero-overlay">
-        <h1 className="title">History</h1>
-        <p>
-          From early beginnings to building a career that bridges business and culture.
-        </p>
-      </div>
-    </section>
-  );
-}
-
-/* ================= WORK ================= */
-
-function Work() {
-  return (
-    <section className="work">
-      <h1>Selected Work</h1>
-
-      <div className="cards">
-        <div className="card">
-          <h3>Enterprise ESG Platform</h3>
-          <p>Corporate sustainability platform.</p>
-        </div>
-
-        <div className="card">
-          <h3>Workday VIBE</h3>
-          <p>Workforce analytics platform.</p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ================= CONTACT ================= */
 
 function Contact() {
   return (
