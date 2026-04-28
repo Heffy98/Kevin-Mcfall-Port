@@ -173,14 +173,16 @@ body {
 .hero {
   position: relative;
   height: 100vh;
+  overflow: hidden;
 }
 
 .hero-bg {
   position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: 42% center;
+  object-fit: contain;
+  object-position: center;
   filter: brightness(0.5);
 }
 
@@ -189,6 +191,32 @@ body {
   z-index: 2;
   top: 50%;
   transform: translateY(-50%);
+  padding-left: 10%;
+  max-width: 600px;
+}
+
+.page > .scene {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.page > .scene .bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  filter: brightness(0.5);
+}
+
+.page > .scene .overlay {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
   padding-left: 10%;
   max-width: 600px;
 }
@@ -231,7 +259,7 @@ body {
 .work-bg img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center 16%;
   filter: blur(6px) brightness(0.45);
   transform: scale(1.05);
@@ -345,6 +373,35 @@ body {
 
 .work-title {
   margin-bottom: 32px;
+}
+
+.contact {
+  position: relative;
+  min-height: 100vh;
+  padding: 96px 24px 32px;
+  overflow: hidden;
+}
+
+.contact-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.contact-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: blur(6px) brightness(0.45);
+  transform: scale(1.05);
+}
+
+.contact-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
 }
 
 .projects {
@@ -474,4 +531,82 @@ body {
 .hamburger span {
   background: #ffffff;
   box-shadow: 0 0 10px rgba(0,0,0,0.35);
+}
+.latest-updates {
+  margin-top: 90px;
+}
+
+.latest-updates h2 {
+  font-size: 34px;
+  margin-bottom: 25px;
+}
+
+.updates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+.update-card {
+  padding: 24px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px);
+  color: white;
+}
+
+.update-card h3 {
+  margin: 10px 0;
+}
+
+.empty-updates {
+  color: #cbd5f5;
+  opacity: 0.8;
+}
+.update-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  transition: all 0.35s ease;
+}
+
+.update-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0.25),
+    transparent
+  );
+  opacity: 0.25;
+}
+
+.update-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: white;
+}
+
+.update-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.update-body {
+  padding: 18px;
+}
+
+.desc {
+  opacity: 0.85;
+}
+
+.impact {
+  margin-top: 10px;
+  font-weight: 600;
 }

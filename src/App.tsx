@@ -3,11 +3,9 @@ import "./App.css";
 
 import avatarImg from "./assets/KM-Blk-turtleneck-2025.jpeg";
 import heroImg from "./assets/Screenshot 2026-04-22 212920.png";
-import businessImg from "./assets/Awardpic.png";
-import { History } from "./pages/History";
-import djImg from "./assets/DJMEGA.png";
+import businessImg from "./assets/Awardpic-edited.png";
 import { Work } from "./pages/Work";
-type Page = "home" | "history" | "work" | "contact";
+type Page = "home" | "work" | "contact";
 
 export default function App() {
   const [page, setPage] = useState<Page>("home");
@@ -44,12 +42,10 @@ export default function App() {
 
       <aside className={`side-menu ${menuOpen ? "show" : ""}`}>
         <button onClick={() => navigate("home")}>Home</button>
-        <button onClick={() => navigate("history")}>History</button>
-        <button onClick={() => navigate("work")}>Work</button>
+        <button onClick={() => navigate("work")}>Portfolio</button>
         <button onClick={() => navigate("contact")}>Contact</button>
       </aside>
       {page === "home" && <Home />}
-     {page === "history" && <History />}
       {page === "work" && <Work />}
       {page === "contact" && <Contact />}
     </div>
@@ -99,13 +95,6 @@ function Home() {
         </div>
       </section>
 
-      <section className="scene theme-dj">
-        <img src={djImg} className="bg" />
-        <div className="overlay">
-          <h2 className="dj-title">DJ MEGA</h2>
-        </div>
-      </section>
-
     </main>
   );
 }
@@ -113,9 +102,14 @@ function Home() {
 function Contact() {
   return (
     <section className="contact">
-      <h1>Contact</h1>
-      <p>Email: kevin.mcfall@gmail.com</p>
-      <p>LinkedIn: linkedin.com/in/kevinmcfall</p>
+      <div className="contact-bg">
+        <img src={avatarImg} alt="" />
+      </div>
+      <div className="contact-content">
+        <h1>Contact</h1>
+        <p>Email: kevin.mcfall@gmail.com</p>
+        <p>LinkedIn: linkedin.com/in/kevinmcfall</p>
+      </div>
     </section>
   );
 }
