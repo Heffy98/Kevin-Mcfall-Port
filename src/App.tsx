@@ -3,9 +3,9 @@ import "./App.css";
 
 import avatarImg from "./assets/KM-Blk-turtleneck-2025.jpeg";
 import heroImg from "./assets/Screenshot 2026-04-22 212920.png";
-import businessImg from "./assets/Awardpic-edited.png";
-import { Work } from "./pages/Work";
-type Page = "home" | "work" | "contact";
+import businessImg from "./assets/Awardpic.png";
+import { Work as Portfolio } from "./pages/Work";
+type Page = "home" | "portfolio" | "contact";
 
 export default function App() {
   const [page, setPage] = useState<Page>("home");
@@ -42,11 +42,11 @@ export default function App() {
 
       <aside className={`side-menu ${menuOpen ? "show" : ""}`}>
         <button onClick={() => navigate("home")}>Home</button>
-        <button onClick={() => navigate("work")}>Portfolio</button>
+        <button onClick={() => navigate("portfolio")}>Portfolio</button>
         <button onClick={() => navigate("contact")}>Contact</button>
       </aside>
       {page === "home" && <Home />}
-      {page === "work" && <Work />}
+     {page === "portfolio" && <Portfolio />}
       {page === "contact" && <Contact />}
     </div>
   );
