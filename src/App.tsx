@@ -3,7 +3,7 @@ import "./App.css";
 
 import avatarImg from "./assets/KM-Blk-turtleneck-2025.jpeg";
 import heroImg from "./assets/Screenshot 2026-04-22 212920.png";
-import businessImg from "./assets/Awardpic.png";
+import businessImg from "./assets/Awardpic-edited.png";
 import { Work as Portfolio } from "./pages/Work";
 type Page = "home" | "portfolio" | "contact";
 

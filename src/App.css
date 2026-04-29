@@ -58,6 +58,8 @@ body {
 
 /* FLOATING BADGE */
 .badge {
+  position: relative;
+  overflow: hidden;
   margin-left: 10px;
   padding: 4px 10px;
   border-radius: 999px;
@@ -70,6 +72,21 @@ body {
   );
 
   animation: floatBadge 3s ease-in-out infinite;
+}
+
+.badge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,0.45) 45%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  animation: shineCta 2.8s ease-in-out infinite;
 }
 
 @keyframes floatBadge {
@@ -221,8 +238,20 @@ body {
   max-width: 600px;
 }
 
+.theme-business .overlay h2 {
+  animation: floatBusinessText 3s ease-in-out infinite;
+}
+
+@keyframes floatBusinessText {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
 /* CTA */
 .cta {
+  position: relative;
+  overflow: hidden;
   margin-top: 20px;
   padding: 14px 28px;
   border-radius: 12px;
@@ -237,6 +266,27 @@ body {
 
   color: white;
   transition: 0.3s ease;
+}
+
+.cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,0.45) 45%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  animation: shineCta 2.8s ease-in-out infinite;
+}
+
+@keyframes shineCta {
+  0% { transform: translateX(-120%); }
+  45% { transform: translateX(120%); }
+  100% { transform: translateX(120%); }
 }
 
 .cta:hover {
