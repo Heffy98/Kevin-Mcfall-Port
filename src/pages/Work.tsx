@@ -1,44 +1,35 @@
 import { useEffect, useState } from "react";
 import { client, urlFor } from "../sanityClient";
 
-/* ===== BACKGROUND ===== */
 import bgImg from "../assets/KevinMcfallBackground.png";
 
-/* ===== RUSHMORE ===== */
 import rush1 from "../assets/Rushmore.png";
 import rush2 from "../assets/rushmore2.png";
 import rush3 from "../assets/rushmore3.png";
 import rush4 from "../assets/rushmore4.png";
 
-/* ===== ZAP2IT ===== */
 import zapit1 from "../assets/zapit1des.png";
 import zapit2 from "../assets/zapit2.png";
 import zapit3 from "../assets/zapit3.png";
 
-/* ===== WORKDAY ===== */
 import workday1image from "../assets/workday1image.png";
 import workday2image from "../assets/workday2image.png";
 
-/* ===== SPHERA ===== */
 import sphera1 from "../assets/sphera.png";
 import newsphera1 from "../assets/newsphera1.png";
 import newsphera2 from "../assets/newsphera2.png";
 
-/* ===== SEARS ===== */
 import sears1 from "../assets/sears1.png";
 import sears3 from "../assets/sears3.png";
 
-/* ===== CISION ===== */
 import c1 from "../assets/c1.png";
 import c2 from "../assets/c2.png";
 import c3 from "../assets/c3.png";
 import c4 from "../assets/c4.png";
 
-/* ===== TWEETS ===== */
 import tweet1 from "../assets/tweets1.png";
 import tweet2 from "../assets/tweets2.png";
 
-/* ===== IC STARS ===== */
 import ic1 from "../assets/IC1.png";
 import ic2 from "../assets/IC2.png";
 import ic3 from "../assets/IC3.png";
@@ -50,7 +41,6 @@ import ic8 from "../assets/IC8.png";
 import ic9 from "../assets/IC9.png";
 import ic11 from "../assets/IC11.png";
 
-/* ===== PUSHBLACK ===== */
 import pb1 from "../assets/PB1.png";
 import pb2 from "../assets/PB2.png";
 import pb3 from "../assets/PB3.png";
@@ -60,7 +50,6 @@ import pb6 from "../assets/PB6.png";
 import pb7 from "../assets/PB7.png";
 import pb8 from "../assets/PB8.png";
 
-/* ===== MARKETING CAMPAIGNS ===== */
 import mc1 from "../assets/m-c1.png";
 import mc2 from "../assets/m-c2.png";
 import mc3 from "../assets/m-c3.png";
@@ -72,6 +61,10 @@ import mc8 from "../assets/m-c8.png";
 import mc9 from "../assets/m-c9.png";
 import mc10 from "../assets/m-c10.png";
 import mc11 from "../assets/m-c11.png";
+
+const sanityStudioUrl =
+  import.meta.env.VITE_SANITY_STUDIO_URL ||
+  "https://www.sanity.io/manage/project/f5v5hyyc";
 
 type Project = {
   title: string;
@@ -89,6 +82,7 @@ type SanityUpdate = {
   description?: string;
   impact?: string;
   image?: any;
+  _createdAt?: string;
 };
 
 const projects: Project[] = [
@@ -189,7 +183,14 @@ const projects: Project[] = [
 
 export function Work() {
   const [active, setActive] = useState<Project | null>(null);
+  const [activeUpdate, setActiveUpdate] = useState<SanityUpdate | null>(null);
   const [updates, setUpdates] = useState<SanityUpdate[]>([]);
+  const editorView = new URLSearchParams(window.location.search).get("view");
+  const showPortfolioControls = editorView === "ken" || editorView === "admin";
+
+  const openSanityStudio = () => {
+    window.open(sanityStudioUrl, "_blank", "noopener,noreferrer");
+  };
 
   useEffect(() => {
     client
@@ -200,7 +201,8 @@ export function Work() {
           tag,
           description,
           impact,
-          image
+          image,
+          _createdAt
         }`
       )
       .then((data) => {
@@ -220,7 +222,31 @@ export function Work() {
       </div>
 
       <div className="work-content">
-        <h1 className="work-title">Portfolio</h1>
+        <div className="portfolio-toolbar">
+          <h1 className="work-title">Portfolio</h1>
+
+          {showPortfolioControls && (
+            <div className="portfolio-actions" aria-label="Portfolio editing controls">
+              <button
+                className="portfolio-edit-button"
+                type="button"
+                onClick={openSanityStudio}
+              >
+                Edit
+              </button>
+
+              <label className="publish-toggle">
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  aria-label="Publish portfolio"
+                />
+                <span className="publish-switch" aria-hidden="true" />
+                <span>Publish</span>
+              </label>
+            </div>
+          )}
+        </div>
 
         <div className="projects">
           {projects.map((p) => (
@@ -239,14 +265,22 @@ export function Work() {
         </div>
 
         <div className="latest-updates">
-          <h2>Latest Portfolio Updates</h2>
+          <div className="updates-heading">
+            <p className="tag">Live portfolio feed</p>
+            <h2>Latest Portfolio Updates</h2>
+          </div>
 
           {updates.length === 0 ? (
             <p className="empty-updates">No monthly updates published yet.</p>
           ) : (
             <div className="updates-grid">
               {updates.map((update) => (
-                <article className="update-card" key={update._id}>
+                <button
+                  className="update-card"
+                  key={update._id}
+                  type="button"
+                  onClick={() => setActiveUpdate(update)}
+                >
                   {update.image && (
                     <img
                       src={urlFor(update.image).width(900).url()}
@@ -256,12 +290,23 @@ export function Work() {
                   )}
 
                   <div className="update-body">
-                    <p className="tag">{update.tag || "Portfolio Update"}</p>
+                    <div className="update-meta">
+                      <p className="tag">{update.tag || "Portfolio Update"}</p>
+                      {update._createdAt && (
+                        <span>
+                          {new Date(update._createdAt).toLocaleDateString()}
+                        </span>
+                      )}
+                    </div>
+
                     <h3>{update.title}</h3>
                     <p className="desc">{update.description}</p>
+
                     {update.impact && <p className="impact">{update.impact}</p>}
+
+                    <span className="card-hint">Open Update</span>
                   </div>
-                </article>
+                </button>
               ))}
             </div>
           )}
@@ -309,6 +354,50 @@ export function Work() {
                   />
                 ))}
               </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {activeUpdate && (
+        <div className="modal" onClick={() => setActiveUpdate(null)}>
+          <button
+            className="close"
+            onClick={() => setActiveUpdate(null)}
+            type="button"
+          >
+            ✕
+          </button>
+
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            {activeUpdate.image && (
+              <div className="modal-hero-image">
+                <img
+                  src={urlFor(activeUpdate.image).width(1100).url()}
+                  alt={activeUpdate.title || "Portfolio update"}
+                />
+              </div>
+            )}
+
+            <h1>{activeUpdate.title}</h1>
+            <p className="tag">{activeUpdate.tag || "Portfolio Update"}</p>
+
+            {activeUpdate._createdAt && (
+              <p className="update-date">
+                Published {new Date(activeUpdate._createdAt).toLocaleDateString()}
+              </p>
+            )}
+
+            <section>
+              <h3>Update</h3>
+              <p>{activeUpdate.description}</p>
+            </section>
+
+            {activeUpdate.impact && (
+              <section>
+                <h3>Impact</h3>
+                <p>{activeUpdate.impact}</p>
+              </section>
             )}
           </div>
         </div>

@@ -293,6 +293,104 @@ body {
   transform: translateY(-3px);
 }
 
+.booking-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 92px 20px 24px;
+  background: rgba(2, 6, 23, 0.52);
+  backdrop-filter: blur(18px);
+}
+
+.booking-modal {
+  position: relative;
+  width: min(520px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 20px;
+  background: linear-gradient(
+    145deg,
+    rgba(255,255,255,0.16),
+    rgba(8,15,30,0.58)
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    0 28px 70px rgba(0,0,0,0.5);
+  backdrop-filter: blur(24px) saturate(140%);
+}
+
+.booking-modal h2 {
+  margin-bottom: 20px;
+  font-size: 30px;
+}
+
+.close-modal {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.14);
+  backdrop-filter: blur(14px);
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.booking-form {
+  display: grid;
+  gap: 14px;
+}
+
+.booking-form label {
+  display: grid;
+  gap: 7px;
+  color: rgba(255,255,255,0.86);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.booking-form input,
+.booking-form textarea {
+  width: 100%;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.12);
+  color: white;
+  font: inherit;
+  padding: 12px 14px;
+  outline: none;
+  backdrop-filter: blur(12px);
+}
+
+.booking-form textarea {
+  resize: vertical;
+}
+
+.booking-form input:focus,
+.booking-form textarea:focus {
+  border-color: var(--illini-orange);
+  box-shadow: 0 0 0 3px rgba(249,115,22,0.18);
+}
+
+.booking-submit {
+  min-height: 46px;
+  margin-top: 4px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(120deg, var(--illini-orange), var(--illini-blue));
+  color: white;
+  cursor: pointer;
+  font-weight: 800;
+}
+
 /* ================= WORK ================= */
 .work-page {
   position: relative;
@@ -411,8 +509,8 @@ body {
 .work-bg img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center 16%;
+  object-fit: contain;
+  object-position: center top;
   filter: blur(6px) brightness(0.45);
   transform: scale(1.05);
 }
@@ -423,6 +521,81 @@ body {
 
 .work-title {
   margin-bottom: 32px;
+}
+
+.portfolio-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 32px;
+}
+
+.portfolio-toolbar .work-title {
+  margin-bottom: 0;
+}
+
+.portfolio-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.portfolio-edit-button {
+  min-height: 40px;
+  padding: 0 18px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.publish-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  color: rgba(255,255,255,0.84);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.publish-toggle input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.publish-switch {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  border: 1px solid rgba(255,255,255,0.24);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.12);
+}
+
+.publish-switch::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+}
+
+.publish-toggle input:checked + .publish-switch {
+  background: var(--illini-orange);
+  border-color: var(--illini-orange);
+}
+
+.publish-toggle input:checked + .publish-switch::after {
+  left: 25px;
 }
 
 .contact {
@@ -442,8 +615,8 @@ body {
 .contact-bg img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
+  object-fit: contain;
+  object-position: center top;
   filter: blur(6px) brightness(0.45);
   transform: scale(1.05);
 }
@@ -541,6 +714,11 @@ body {
 @media (max-width: 768px) {
   .work-content {
     padding: 96px 20px 32px;
+  }
+
+  .portfolio-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .modal {
@@ -659,4 +837,55 @@ body {
 .impact {
   margin-top: 10px;
   font-weight: 600;
+}
+.updates-heading {
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.updates-subtitle {
+  margin-top: 8px;
+  color: rgba(255,255,255,0.76);
+}
+
+.update-card {
+  text-align: left;
+  cursor: pointer;
+}
+
+.update-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.update-meta span,
+.update-date {
+  color: rgba(255,255,255,0.65);
+  font-size: 0.85rem;
+}
+
+.card-hint {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--illini-orange);
+}
+
+.modal-hero-image {
+  margin-bottom: 26px;
+}
+
+.modal-hero-image img {
+  width: 100%;
+  max-height: 460px;
+  object-fit: contain;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 18px 50px rgba(0,0,0,0.38);
 }
