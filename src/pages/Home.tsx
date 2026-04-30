@@ -4,6 +4,12 @@ import heroImg from "../assets/Screenshot 2026-04-22 212920.png";
 import businessImg from "../assets/Awardpic.png";
 import djImg from "../assets/DJMEGA.png";
 
+const rotatingQuotes = [
+  "Strategy turns vision into momentum.",
+  "Growth follows clarity, courage, and execution.",
+  "Leadership is the bridge between ideas and impact.",
+];
+
 export default function Home() {
   const [open, setOpen] = useState(false);
 
@@ -45,6 +51,8 @@ export default function Home() {
             Book a Consultation
           </button>
         </div>
+
+        <QuoteRibbon />
       </section>
 
       {open && (
@@ -97,5 +105,17 @@ export default function Home() {
       </section>
 
     </main>
+  );
+}
+
+function QuoteRibbon() {
+  return (
+    <div className="quote-ribbon" aria-label="Rotating leadership quotes">
+      {rotatingQuotes.map((quote, index) => (
+        <span key={quote} style={{ animationDelay: `${index * 4}s` }}>
+          {quote}
+        </span>
+      ))}
+    </div>
   );
 }

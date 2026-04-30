@@ -107,7 +107,7 @@ const projects: Project[] = [
     images: [rush1, rush2, rush3, rush4],
   },
   {
-    title: "Cision Digital Media",
+    title: "Cision",
     tag: "PR • Social Media",
     overview: "Developed freemium growth strategy for PR and media tools.",
     execution:
@@ -169,7 +169,7 @@ const projects: Project[] = [
     images: [pb1, pb2, pb3, pb4, pb5, pb6, pb7, pb8],
   },
   {
-    title: "Notable Marketing Campaigns",
+    title: "Notable Marketing Campaigns (JPC: Ebony & Jet)",
     tag: "Marketing • Brand Strategy",
     overview:
       "Led and supported high-impact marketing campaigns across media, entertainment, product, and community-focused initiatives.",

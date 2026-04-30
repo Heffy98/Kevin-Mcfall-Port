@@ -7,6 +7,12 @@ import businessImg from "./assets/Awardpic-edited.png";
 import { Work as Portfolio } from "./pages/Work";
 type Page = "home" | "portfolio" | "contact";
 
+const rotatingQuotes = [
+  "Strategy turns vision into momentum.",
+  "Growth follows clarity, courage, and execution.",
+  "Leadership is the bridge between ideas and impact.",
+];
+
 export default function App() {
   const [page, setPage] = useState<Page>("home");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -98,6 +104,8 @@ function Home() {
             </button>
           </div>
         </div>
+
+        <QuoteRibbon />
       </section>
 
       {/* MODAL */}
@@ -151,6 +159,18 @@ function Home() {
       </section>
 
     </main>
+  );
+}
+
+function QuoteRibbon() {
+  return (
+    <div className="quote-ribbon" aria-label="Rotating leadership quotes">
+      {rotatingQuotes.map((quote, index) => (
+        <span key={quote} style={{ animationDelay: `${index * 4}s` }}>
+          {quote}
+        </span>
+      ))}
+    </div>
   );
 }
 
