@@ -75,6 +75,18 @@ type Project = {
   images: string[];
 };
 
+type SanityCaseStudy = {
+  _id: string;
+  title?: string;
+  tag?: string;
+  overview?: string;
+  execution?: string;
+  impact?: string;
+  mainImage?: any;
+  images?: any[];
+  order?: number;
+};
+
 type SanityUpdate = {
   _id: string;
   title?: string;
@@ -85,7 +97,7 @@ type SanityUpdate = {
   _createdAt?: string;
 };
 
-const projects: Project[] = [
+const fallbackProjects: Project[] = [
   {
     title: "Zap2it Platform",
     tag: "TV Guide • Media Platform",
@@ -181,9 +193,38 @@ const projects: Project[] = [
   },
 ];
 
+function imageUrl(source: any, width = 1400) {
+  try {
+    return urlFor(source).width(width).url();
+  } catch {
+    return "";
+  }
+}
+
+function fromSanityCaseStudy(study: SanityCaseStudy): Project | null {
+  if (!study.title) {
+    return null;
+  }
+
+  const images = [study.mainImage, ...(study.images || [])]
+    .filter(Boolean)
+    .map((image) => imageUrl(image))
+    .filter(Boolean);
+
+  return {
+    title: study.title,
+    tag: study.tag || "Case Study",
+    overview: study.overview || "",
+    execution: study.execution || "",
+    impact: study.impact || "",
+    images,
+  };
+}
+
 export function Work() {
   const [active, setActive] = useState<Project | null>(null);
   const [activeUpdate, setActiveUpdate] = useState<SanityUpdate | null>(null);
+  const [caseStudies, setCaseStudies] = useState<Project[]>(fallbackProjects);
   const [updates, setUpdates] = useState<SanityUpdate[]>([]);
   const editorView = new URLSearchParams(window.location.search).get("view");
   const showPortfolioControls = editorView === "ken" || editorView === "admin";
@@ -193,6 +234,33 @@ export function Work() {
   };
 
   useEffect(() => {
+    client
+      .fetch<SanityCaseStudy[]>(
+        `*[_type == "caseStudy" && (!defined(isPublished) || isPublished == true)] | order(order asc, _createdAt asc){
+          _id,
+          title,
+          tag,
+          overview,
+          execution,
+          impact,
+          mainImage,
+          images,
+          order
+        }`
+      )
+      .then((data) => {
+        const editableCaseStudies = data
+          .map(fromSanityCaseStudy)
+          .filter((project): project is Project => Boolean(project));
+
+        if (editableCaseStudies.length > 0) {
+          setCaseStudies(editableCaseStudies);
+        }
+      })
+      .catch((error) => {
+        console.error("Sanity case study fetch error:", error);
+      });
+
     client
       .fetch<SanityUpdate[]>(
         `*[_type == "project"] | order(_createdAt desc){
@@ -206,7 +274,6 @@ export function Work() {
         }`
       )
       .then((data) => {
-        console.log("SANITY DATA:", data);
         setUpdates(data);
       })
       .catch((error) => {
@@ -249,7 +316,7 @@ export function Work() {
         </div>
 
         <div className="projects">
-          {projects.map((p) => (
+          {caseStudies.map((p) => (
             <button
               key={p.title}
               className="project-card"
