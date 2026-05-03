@@ -11,6 +11,17 @@ body {
   color: white;
 }
 
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
 /* ================= ROOT COLORS ================= */
 :root {
   --illini-orange: #f97316;
@@ -954,4 +965,51 @@ body {
   border-radius: 20px;
   border: 1px solid rgba(255,255,255,0.12);
   box-shadow: 0 18px 50px rgba(0,0,0,0.38);
+}
+
+/* Keep portfolio and modal copy readable across browser defaults. */
+.app,
+.page,
+.hero,
+.hero-overlay,
+.page > .scene .overlay,
+.work-page,
+.work-content,
+.contact,
+.contact-content,
+.booking-modal,
+.modal-content,
+.project-card,
+.update-card,
+.history-card {
+  color: #ffffff;
+}
+
+.hero-overlay h1,
+.hero-overlay p,
+.page > .scene .overlay h2,
+.contact-content h1,
+.contact-content p,
+.booking-modal h2,
+.modal-content h1,
+.modal-content p,
+.project-card h2,
+.project-card p:not(.tag),
+.update-card h3,
+.update-card p:not(.tag):not(.impact),
+.history-card h2,
+.history-card p:not(.tag) {
+  color: #ffffff;
+}
+
+.project-card .tag,
+.update-card .tag,
+.modal-content .tag {
+  color: var(--illini-silver);
+}
+
+.modal-content h3,
+.card-hint,
+.impact {
+  color: var(--illini-orange);
 }
